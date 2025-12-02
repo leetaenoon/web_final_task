@@ -1,59 +1,251 @@
-/* photos.css */
+/* src/photos.css */
+
+/* 전체 컨테이너: 중앙 정렬 및 여백 */
+.photos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.photos-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.photos-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: navy;
+}
+
+.photos-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* 카드 그리드 레이아웃 (반응형의 핵심) */
 .cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* 화면 크기에 맞춰서 카드가 최소 280px 크기로 자동 배치됨 */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
   justify-content: center;
 }
+
+/* 개별 카드 스타일 */
 .card {
-  width: 250px;
-  height: 460px;
-  margin: 15px;
+  background: white;
+  border-radius: 15px; /* 둥근 모서리 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  overflow: hidden; /* 이미지가 둥근 모서리를 뚫고 나가지 않게 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  position: relative;
 }
+
+/* 마우스 올렸을 때 효과 */
+.card:hover {
+  transform: translateY(-10px); /* 위로 살짝 뜸 */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* 그림자 진해짐 */
+}
+
+/* 카드 이미지 */
 .cardImage {
   width: 100%;
-  /* height: auto; */
-  height: 250px;
-  object-fit: cover;
+  height: 220px; /* 높이 고정 */
+  object-fit: cover; /* 비율 유지하며 꽉 채우기 */
+  border-bottom: 1px solid #eee;
 }
+
+/* 카드 내용 영역 */
 .cardContent {
-  padding: 15px;
+  padding: 20px;
+  flex-grow: 1; /* 내용이 적어도 버튼을 아래로 밀어냄 */
+  text-align: left;
+}
+
+.cardTitle {
+  font-size: 1.4rem;
+  margin: 0 0 10px 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.cardDate {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 15px;
+  display: block;
 }
 
 .cardText {
-  height: 2.4rem;
-  /* text-overflow: ellipsis; */
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  margin: 0;
+  /* 3줄 이상 넘어가면 ... 처리 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* 버튼 영역 */
 .buttons {
+  padding: 15px 20px;
+  border-top: 1px solid #f0f0f0;
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  background-color: #fafafa;
 }
+
 .editButton,
 .deleteButton {
   flex: 1;
-  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
   text-align: center;
-  color: white;
-  font-size: 1.1rem;
-  padding: 0;
-  margin: 0;
-  border: 1px solid dodgerblue;
-  background-color: gray;
   text-decoration: none;
+  transition: background 0.2s;
+  font-size: 0.9rem;
 }
-@media (max-width: 600px) {
-  .card {
-    width: 100%;
-    min-width: 500px;
-    margin: 10px 0;
+
+.editButton {
+  background-color: #e3f2fd;
+  color: #1e88e5;
+}
+.editButton button {
+  /* Link 안에 있는 버튼 스타일 초기화 */
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+.editButton:hover {
+  background-color: #bbdefb;
+}
+
+.deleteButton {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.deleteButton:hover {
+  background-color: #ffcdd2;
+}
+
+/* src/photos.css 기존 내용 아래에 추가 */
+
+/* 클릭 가능하다는 표시 (돋보기 모양 커서) */
+.cardImage {
+  cursor: zoom-in;
+}
+
+/* 모달 전체 배경 (검은색 반투명) */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85); /* 뒤 배경 어둡게 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* 모든 요소보다 위에 */
+  opacity: 0;
+  animation: fadeIn 0.3s forwards; /* 부드럽게 나타나기 */
+}
+
+/* 등장 애니메이션 */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
 }
-@media (max-width: 900px) {
-  .card {
-    width: 48%;
-    margin: 1%;
-  }
+
+/* 모달 내부 컨텐츠 */
+.modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 원본 이미지 스타일 */
+.modal-content img {
+  max-width: 100%;
+  max-height: 90vh; /* 화면 높이를 넘지 않도록 */
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* 닫기 버튼 (X) */
+.close-modal-btn {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.close-modal-btn:hover {
+  transform: scale(1.2);
+  color: #ff6b6b;
+}
+
+/* src/photos.css 하단에 추가 */
+
+/* 휴지통 전환 버튼 (헤더 중앙) */
+.toggle-trash-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 30px; /* 둥근 캡슐 모양 */
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.toggle-trash-btn:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 복구 버튼 (초록색 계열) */
+.restoreButton {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  background-color: #e8f5e9; /* 연한 초록 */
+  color: #2e7d32; /* 진한 초록 글씨 */
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.restoreButton:hover {
+  background-color: #c8e6c9; /* 호버 시 조금 더 진한 연두색 */
 }

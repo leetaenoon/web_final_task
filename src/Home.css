@@ -1,25 +1,205 @@
-/* src/Home.css */
+/* src/Home.css 하단에 추가 */
 
-/* 로그인 했을 때 환영 메시지 */
+.home-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 업데이트 내역 섹션 */
+.changelog-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 30px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.changelog-section h3 {
+  margin-top: 0;
+  color: #333;
+  text-align: center;
+}
+
+/* 입력창 스타일 */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.input-group button {
+  padding: 10px 20px;
+  background-color: #4dabf7;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.input-group button:hover {
+  background-color: #339af0;
+}
+
+/* 리스트 스타일 */
+.update-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.update-item {
+  background-color: white;
+  border-bottom: 1px solid #eee;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.update-item:hover {
+  background-color: #f1f3f5;
+}
+
+.update-text {
+  flex: 1;
+  font-size: 1.1rem;
+}
+
+.update-date {
+  font-size: 0.8rem;
+  color: #888;
+  margin-right: 10px;
+}
+
+/* 리스트 삭제 버튼 */
+.delete-mini-btn {
+  background-color: transparent;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.delete-mini-btn:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.no-data {
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+}
+
 .welcome-msg {
-  text-align: center;
-  color: navy;
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 로그인 안 했을 때 안내 메시지 */
-.login-request-msg {
-  text-align: center;
-  color: gray;
-  margin-top: 20px;
+/* src/Home.css 하단에 추가 */
+
+/* 리스트 아이템 내부 레이아웃 */
+.update-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-/* 본문 텍스트 래퍼 */
-.home-description {
-  padding-inline: 2em;
+/* 날짜와 버튼들을 감싸는 그룹 */
+.item-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0; /* 화면이 줄어도 찌그러지지 않게 */
 }
 
-/* 빨간색 강조 텍스트 */
-.highlight-text {
-  color: red;
+/* 버튼 그룹 */
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+/* 수정 미니 버튼 */
+.edit-mini-btn {
+  background-color: transparent;
+  color: #4dabf7;
+  border: 1px solid #4dabf7;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.edit-mini-btn:hover {
+  background-color: #4dabf7;
+  color: white;
+}
+
+/* --- 수정 모드 스타일 --- */
+.edit-mode-group {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+}
+
+.edit-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #4dabf7; /* 수정 중임을 알리는 색상 */
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.save-btn {
+  background-color: #4dabf7;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #adb5bd;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #339af0;
+}
+.cancel-btn:hover {
+  background-color: #868e96;
+}
+
+.home-description{
+    
 }

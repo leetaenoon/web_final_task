@@ -1,8 +1,8 @@
 // src/App.jsx
 import React, { useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, NavLink } from "react-router";
-// 1. 로그아웃 기능 import
+// 1. Link 컴포넌트 추가 (NavLink 옆에 Link 추가)
+import { BrowserRouter, Routes, Route, NavLink, Link } from "react-router";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "./firebaseConfig";
 
@@ -31,7 +31,6 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  // 2. 로그아웃 핸들러 추가
   const handleLogout = () => {
     signOut(auth).then(() => {
       logouted();
@@ -41,9 +40,21 @@ function App() {
 
   return (
     <BrowserRouter>
-      <h1 className="header">Welcome to react & Firebase.</h1>
+      {/* 2. 헤더 텍스트를 Link로 감싸서 클릭 시 홈으로 이동하도록 설정 */}
+      {/* textDecoration: "none"으로 밑줄 제거, color: "inherit"로 기존 색상 유지 */}
+      <h1 className="header">
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            cursor: "pointer",
+          }}
+        >
+          고급 웹프로그래밍 기말과제 여행기록부
+        </Link>
+      </h1>
 
-      {/* 3. 유저 이름과 로그아웃 버튼을 묶는 컨테이너 추가 */}
       <div className="user-info-bar">
         {isLogined ? (
           <>
