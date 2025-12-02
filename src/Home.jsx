@@ -1,17 +1,28 @@
+// src/Home.jsx
 import React from "react";
+import useLoginStore from "./useLoginStore";
+import "./Home.css";
 
 const Home = () => {
+  const isLogined = useLoginStore((state) => state.isLogined);
+  const userName = useLoginStore((state) => state.userName);
+
   return (
     <>
-      <h1>여기는 Home입니다. 계속 코딩하세요.</h1>
-      <p style={{ paddingInline: "2em" }}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. <br />{" "}
-        <span style={{ color: "red" }}>
-          [이 부분은 여러분들이 원하는 내용으로 다시 작성해야 합니다.]{" "}
-        </span>
+      {isLogined ? (
+        <h2 className="welcome-msg">
+          환영합니다 {userName}님 오늘은 어떠신가요?
+        </h2>
+      ) : (
+        <h2 className="login-request-msg">로그인을 해주세요</h2>
+      )}
+
+      <h1>당신은 지금 어떤걸 수정하고 계신가요?</h1>
+      <h1>수정사항을 이 밑에 적으면서 사이트를 업그레이드 하세요!</h1>
+
+      <p className="home-description">
+        {/* 내용 생략 (기존과 동일) */}
+        Lorem Ipsum is simply dummy text...
       </p>
     </>
   );

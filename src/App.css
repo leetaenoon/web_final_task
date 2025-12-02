@@ -47,3 +47,42 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+h1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 이름과 로그아웃 버튼을 감싸는 영역 */
+.user-info-bar {
+  display: flex; /* 가로 배치 */
+  align-items: center; /* 세로 중앙 정렬 */
+  padding-left: 20px; /* 왼쪽 여백 (화면 끝에 너무 붙지 않게) */
+  gap: 10px; /* 이름과 버튼 사이 간격 */
+  margin-bottom: 10px; /* 네비게이션 바와의 간격 */
+}
+
+/* 유저 이름 스타일 (기본 마진 제거) */
+.user-name {
+  margin: 0;
+  color: black;
+  font-weight: bold;
+}
+
+/* 작고 귀여운 로그아웃 버튼 스타일 */
+.logout-mini-btn {
+  background-color: white;
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-mini-btn:hover {
+  background-color: #ff6b6b;
+  color: white;
+}

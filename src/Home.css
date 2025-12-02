@@ -1,0 +1,25 @@
+/* src/Home.css */
+
+/* 로그인 했을 때 환영 메시지 */
+.welcome-msg {
+  text-align: center;
+  color: navy;
+  margin-top: 20px;
+}
+
+/* 로그인 안 했을 때 안내 메시지 */
+.login-request-msg {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+}
+
+/* 본문 텍스트 래퍼 */
+.home-description {
+  padding-inline: 2em;
+}
+
+/* 빨간색 강조 텍스트 */
+.highlight-text {
+  color: red;
+}
