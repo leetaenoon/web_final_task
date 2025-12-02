@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+}
+.active {
+  color: white;
+  background-color: green;
+}
+.header {
+  text-align: center;
+  color: navy;
+  position: relative;
+}
+.navi {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  background-color: gray;
+}
+.nav-item {
+  padding: 8px 16px;
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  height: 100%;
+}
+.nav-item:hover {
+  background-color: mistyrose;
+  color: black;
+}
+
+.loginPage {
+  text-align: center;
+}
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.tourContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
