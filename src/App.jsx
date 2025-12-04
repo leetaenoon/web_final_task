@@ -1,10 +1,12 @@
 // src/App.jsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react"; // useState 추가
 import "./App.css";
-// 1. Link 컴포넌트 추가 (NavLink 옆에 Link 추가)
 import { BrowserRouter, Routes, Route, NavLink, Link } from "react-router";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "./firebaseConfig";
+
+// 1. 이미지 임포트 (경로 확인: src/assets/images.png)
+import univLogo from "./assets/images.png";
 
 import Home from "./Home";
 import Photos from "./Photos";
@@ -19,6 +21,9 @@ function App() {
   const logined = useLoginStore((state) => state.logined);
   const logouted = useLoginStore((state) => state.logouted);
   const auth = getAuth(app);
+
+  // 2. FAB 메뉴 상태 추가
+  const [showUnivLinks, setShowUnivLinks] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,8 +45,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* 2. 헤더 텍스트를 Link로 감싸서 클릭 시 홈으로 이동하도록 설정 */}
-      {/* textDecoration: "none"으로 밑줄 제거, color: "inherit"로 기존 색상 유지 */}
+      {/* 헤더 제목 클릭 시 홈으로 이동 */}
       <h1 className="header">
         <Link
           to="/"
@@ -55,6 +59,7 @@ function App() {
         </Link>
       </h1>
 
+      {/* 유저 정보 및 로그아웃 버튼 */}
       <div className="user-info-bar">
         {isLogined ? (
           <>
@@ -68,6 +73,7 @@ function App() {
         )}
       </div>
 
+      {/* 네비게이션 바 */}
       <nav className="navi">
         <NavLink to="/" className="nav-item">
           Home
@@ -78,9 +84,13 @@ function App() {
         <NavLink to="/tour" className="nav-item">
           여행등록
         </NavLink>
-        <NavLink to="/login" className="nav-item">
-          Login
-        </NavLink>
+
+        {/* 로그인이 안 된 상태일 때만 Login 메뉴 표시 */}
+        {!isLogined && (
+          <NavLink to="/login" className="nav-item">
+            Login
+          </NavLink>
+        )}
       </nav>
 
       <Routes>
@@ -90,6 +100,45 @@ function App() {
         <Route path="/editTrip/:docId" element={<EditTrip />} />
         <Route path="/login" element={<Login />}></Route>
       </Routes>
+
+      {/* 3. 👇 모든 페이지에 표시될 플로팅 아이콘 (FAB) 추가 👇 */}
+      <div className="fab-container">
+        {showUnivLinks && (
+          <div className="fab-menu">
+            <a
+              href="https://www.hs.ac.kr/kor/index.do"
+              target="_blank"
+              rel="noreferrer"
+              className="univ-link"
+            >
+              한신대 홈페이지
+            </a>
+            <a
+              href="https://hsctis.hs.ac.kr/app-nexa/index.html"
+              target="_blank"
+              rel="noreferrer"
+              className="univ-link"
+            >
+              한신대 종합포털
+            </a>
+            <a
+              href="https://lms.hs.ac.kr/main/MainView.dunet#main"
+              target="_blank"
+              rel="noreferrer"
+              className="univ-link"
+            >
+              한신대 LMS
+            </a>
+          </div>
+        )}
+        <button
+          className="fab-button"
+          onClick={() => setShowUnivLinks(!showUnivLinks)}
+        >
+          <img src={univLogo} alt="Quick Menu" />
+        </button>
+      </div>
+      {/* 👆 플로팅 아이콘 추가 끝 👆 */}
     </BrowserRouter>
   );
 }

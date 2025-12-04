@@ -1,0 +1,137 @@
+/* src/Tour.css */
+
+/* 전체 페이지 컨테이너 */
+.tour-page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* 헤더 스타일 */
+.tour-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.tour-header h1 {
+  font-size: 2rem;
+  color: navy;
+  margin-bottom: 10px;
+}
+
+.tour-header p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.warning-text {
+  color: #e53935;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* 폼 카드 스타일 (Photos의 카드 스타일과 통일감) */
+.tour-form-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 부드러운 그림자 */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 입력 그룹 (라벨 + 인풋) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+/* 입력 필드 공통 스타일 */
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group input[type="file"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  font-family: inherit; /* 폰트 상속 */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4dabf7; /* 포커스 시 파란색 */
+  box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical; /* 세로 크기 조절만 허용 */
+}
+
+/* 파일 입력 필드 약간의 여백 */
+.file-input-wrapper {
+  margin-top: 5px;
+}
+
+/* 버튼 그룹 */
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.submit-btn,
+.reset-btn {
+  flex: 1; /* 반반 차지 */
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* 저장 버튼 (파란색 계열) */
+.submit-btn {
+  background-color: #1e88e5;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+  background-color: #90caf9;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 초기화 버튼 (회색 계열) */
+.reset-btn {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.reset-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.reset-btn:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}

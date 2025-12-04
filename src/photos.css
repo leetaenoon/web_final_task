@@ -142,8 +142,6 @@
   background-color: #ffcdd2;
 }
 
-/* src/photos.css 기존 내용 아래에 추가 */
-
 /* 클릭 가능하다는 표시 (돋보기 모양 커서) */
 .cardImage {
   cursor: zoom-in;
@@ -248,4 +246,527 @@
 
 .restoreButton:hover {
   background-color: #c8e6c9; /* 호버 시 조금 더 진한 연두색 */
+}
+
+/* src/photos.css 하단에 추가 */
+
+/* 헤더 컨트롤 영역 (토글 버튼 + 휴지통 버튼) */
+.header-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* --- 토글 스위치 디자인 --- */
+.view-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f1f3f5;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.toggle-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* --- 리스트 뷰 (게시판 테이블) 스타일 --- */
+.list-view {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.list-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.list-table th,
+.list-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.list-table th {
+  background-color: #f8f9fa;
+  color: navy;
+  font-weight: bold;
+}
+
+.list-table tr:hover {
+  background-color: #f1f3f5;
+}
+
+/* 제목 컬럼 (클릭 가능) */
+.list-title {
+  text-align: left !important;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}
+
+.list-title:hover {
+  color: #2196f3;
+  text-decoration: underline;
+}
+
+.list-comment-preview {
+  font-weight: normal;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* 리스트 내부 미니 버튼 */
+.list-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.small-btn {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.small-btn.edit {
+  border-color: #bbdefb;
+  color: #1976d2;
+  background: #e3f2fd;
+}
+
+.small-btn.delete {
+  border-color: #ffcdd2;
+  color: #c62828;
+  background: #ffebee;
+}
+
+.small-btn.restore {
+  border-color: #c8e6c9;
+  color: #2e7d32;
+  background: #e8f5e9;
+}
+
+/* src/photos.css 하단에 추가 */
+
+/* --- 리스트 뷰 잘림 현상 해결 --- */
+.list-view {
+  width: 100%;
+  overflow-x: auto; /* 화면보다 표가 크면 가로 스크롤 생성 */
+}
+
+.list-table {
+  width: 100%;
+  min-width: 600px; /* 최소 너비 설정하여 찌그러짐 방지 */
+  table-layout: fixed; /* 칸 너비 고정 (글자가 길어도 칸이 안 늘어남) */
+  border-collapse: collapse;
+}
+
+/* 제목이 길 때 말줄임표(...) 처리 */
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.main-title {
+  font-weight: bold;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* ... 처리 */
+}
+
+.sub-comment {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* ... 처리 */
+}
+
+/* ------------------------------------------------ */
+/* --- 인스타그램 스타일 상세 모달 (Instagram Modal) --- */
+/* ------------------------------------------------ */
+
+.insta-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* 뒷배경 반투명 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  padding: 20px;
+}
+
+.insta-modal-content {
+  display: flex;
+  background-color: white;
+  width: 100%;
+  max-width: 900px; /* 최대 너비 */
+  height: 600px; /* 고정 높이 */
+  border-radius: 4px; /* 인스타 감성은 둥글기가 작음 */
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* [왼쪽] 이미지 영역 */
+.insta-img-section {
+  flex: 1.5; /* 6:4 비율 정도 */
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.insta-img-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 비율 유지하며 다 보여주기 */
+}
+
+/* [오른쪽] 정보 영역 */
+.insta-info-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+/* 헤더: 유저 정보 */
+.insta-header {
+  padding: 15px;
+  border-bottom: 1px solid #efefef;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  background-color: #eee;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.insta-user-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.insta-user-info .username {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #262626;
+}
+
+.insta-user-info .location {
+  font-size: 0.75rem;
+  color: #262626;
+}
+
+.close-btn-text {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/* 바디: 댓글 및 내용 (스크롤 가능) */
+.insta-body {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto; /* 내용 많으면 스크롤 */
+}
+
+.comment-row {
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.username-bold {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+/* 푸터: 좋아요 및 날짜 */
+.insta-footer {
+  padding: 15px;
+  border-top: 1px solid #efefef;
+}
+
+.action-icons {
+  font-size: 1.5rem;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.likes-count {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.post-date {
+  font-size: 0.7rem;
+  color: #8e8e8e;
+  text-transform: uppercase;
+}
+
+/* 모바일 대응: 세로 배치 */
+@media (max-width: 768px) {
+  .insta-modal-content {
+    flex-direction: column;
+    height: 90vh;
+    max-width: 95%;
+  }
+  .insta-img-section {
+    flex: none;
+    height: 50%;
+  }
+  .insta-info-section {
+    flex: 1;
+  }
+}
+
+/* src/photos.css 하단에 추가 */
+
+/* 댓글 입력창 영역 */
+.comment-input-area {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #efefef;
+  padding-top: 15px;
+  margin-top: 10px;
+}
+
+.comment-input-area input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 0.95rem;
+}
+
+.post-comment-btn {
+  background: none;
+  border: none;
+  color: #0095f6; /* 인스타 블루 */
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.post-comment-btn:disabled {
+  color: #b3dffc;
+  cursor: default;
+}
+
+/* 댓글 날짜 작게 표시 */
+.comment-date-small {
+  font-size: 0.7rem;
+  color: #aaa;
+  margin-left: 8px;
+}
+
+.no-comments {
+  color: #aaa;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+/* src/photos.css 하단에 추가 */
+
+/* --- 검색바 스타일 --- */
+.search-wrapper {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px; /* 둥근 모양 */
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+  background-color: #fdfdfd;
+}
+
+.search-input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.2);
+}
+
+.no-result-msg {
+  text-align: center;
+  color: #888;
+  margin-top: 50px;
+  font-size: 1.1rem;
+}
+
+/* --- 플로팅 액션 버튼 (FAB) 스타일 --- */
+.fab-container {
+  position: fixed; /* 화면에 고정 */
+  bottom: 30px; /* 바닥에서 30px 띄움 */
+  right: 30px; /* 오른쪽에서 30px 띄움 */
+  z-index: 1000; /* 다른 요소 위에 표시 */
+  display: flex;
+  flex-direction: column-reverse; /* 메뉴가 버튼 위로 뜨게 */
+  align-items: end; /* 오른쪽 정렬 */
+  gap: 15px;
+}
+
+/* 메인 둥근 버튼 */
+.fab-button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  overflow: hidden; /* 이미지가 둥근 영역을 넘지 않게 */
+  padding: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fab-button:hover {
+  transform: scale(1.1); /* 마우스 올리면 커짐 */
+}
+
+.fab-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 꽉 차게 */
+}
+
+/* 펼쳐지는 메뉴 리스트 */
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 5px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 개별 링크 버튼 */
+.univ-link {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  white-space: nowrap; /* 줄바꿈 방지 */
+  transition: all 0.2s;
+  text-align: right;
+  border-right: 5px solid #002c5f; /* 한신대 색상 포인트 */
+}
+
+.univ-link:hover {
+  background-color: #002c5f;
+  color: white;
+  transform: translateX(-5px); /* 왼쪽으로 살짝 이동 */
+}
+
+.fab-button {
+  /* ... 기존 코드 유지 ... */
+
+  /* 👇 이 줄을 임시로 추가해 주세요 👇 */
+  border: 5px solid red !important; /* 빨간색 테두리를 강제로 추가 */
+  background-color: yellow !important; /* 배경색도 강제로 변경 */
+  /* 👆 이 줄을 임시로 추가해 주세요 👆 */
 }

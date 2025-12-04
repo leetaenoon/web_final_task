@@ -1,8 +1,8 @@
-//Tours.jsx
+// src/Tour.jsx
 import React, { useState } from "react";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import app from "./firebaseConfig";
-import "./App.css";
+import "./Tour.css";
 import {
   getStorage,
   ref,
@@ -10,134 +10,157 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import useLoginStore from "./useLoginStore";
-const Tour = () => {
-  //Tour 컴포넌트
-  const db = getFirestore(app); //파이어스토어 데이터베이스 연결
-  const storage = getStorage(app); //이미지 저장을 위한 스토리지 연결
 
-  const isLogined = useLoginStore((state) => state.isLogined); //console.log("db : ", db);
+const Tour = () => {
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  const isLogined = useLoginStore((state) => state.isLogined);
+  // 1. 로그인한 사용자 이름 가져오기
+  const userName = useLoginStore((state) => state.userName);
+
   let [location1, setLocation1] = useState("");
   let [date1, setDate1] = useState("");
   let [comment, setComment] = useState("");
-  let [image, setImage] = useState(null); //업로드할 파일 객체
-  const locHandle = (e) => {
-    //여행지 위치 등록 정보
-    //e.preventDefault();
-    setLocation1(e.target.value);
-  };
-  const dateHandle = (e) => {
-    //e.preventDefault();
-    setDate1(e.target.value);
-  };
-  const commentHandle = (e) => {
-    //e.preventDefault();
-    setComment(e.target.value);
-  };
+  let [image, setImage] = useState(null);
+
+  const locHandle = (e) => setLocation1(e.target.value);
+  const dateHandle = (e) => setDate1(e.target.value);
+  const commentHandle = (e) => setComment(e.target.value);
+
   const handleReset = () => {
-    //초기화
     setLocation1("");
     setDate1("");
     setComment("");
     setImage(null);
-  }; //이미지를 포함한 데이터 저장
+  };
+
   const storeHandle = async (e) => {
     e.preventDefault();
     if (!isLogined) {
       alert("로그인을 해야 업로드가 가능합니다.");
       return;
     }
-    if (image == null) return; //아래는 스토리지 버킷의 images 폴더 아래 기존 파일명으로 저장할 것이라는 의미
-    const storageRef = ref(storage, "images/" + image.name); //저장될 폴더및파일명 // uploadBytes(storageRef, image).then((snapshot) => { //   console.log("Uploaded a blob or file!"); // });
-    let photoURL = null; //아래의 경우에는  메타데이터가 없음
+    if (image == null) {
+      alert("사진을 반드시 선택해야 합니다.");
+      return;
+    }
+
+    const storageRef = ref(storage, "images/" + image.name);
+    let photoURL = null;
+
     const uploadTask = uploadBytesResumable(storageRef, image);
+
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded
-        // and the total number of bytes to be uploaded(생략하였음)
-      },
+      (snapshot) => {},
       (error) => {
-        // A full list of error codes is available at
         console.log(error);
       },
       () => {
-        // Upload completed successfully, now we can get the download URL
-        //업로드 성공시 url 주소를 얻고, firestore에 기존 정보와 함께 저장하도록 함.
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          photoURL = downloadURL; //storage에 저장된 포토 url 주소임 //console.log("File available at", downloadURL);
+          photoURL = downloadURL;
           addDoc(collection(db, "tourMemo"), {
             location: location1,
             date: date1,
             comment,
             photoURL,
+            isDeleted: false,
+            comments: [],
+            // 2. 작성자 이름 저장 (없으면 '익명' 처리)
+            author: userName || "익명",
           });
-          setLocation1("");
-          setDate1("");
-          setComment("");
-          setImage(null);
+          handleReset();
           alert("한 건의 여행 추억을 등록하였습니다.");
         });
       }
     );
   };
+
   return (
-    <div>
-      {" "}
-      <h1 style={{ textAlign: "center", marginTop: "100px", color: "brown" }}>
-        나의 여행 등록하기{" "}
-        <span style={{ fontSize: "16px" }}>(로그인상태에서만 가능함)</span>{" "}
-      </h1>{" "}
-      <form>
-        {" "}
-        <div className="tourContainer">
-          <div>여 행 지</div>{" "}
+    // ... (기존 JSX와 동일)
+    <div className="tour-page-container">
+      {/* ... 생략 ... */}
+      <div className="tour-header">
+        <h1>✈️ 나의 여행 기록하기</h1>
+        <p>
+          잊지 못할 추억을 사진과 함께 남겨보세요. <br />
+          {!isLogined && (
+            <span className="warning-text">(로그인이 필요한 기능입니다)</span>
+          )}
+        </p>
+      </div>
+
+      <form className="tour-form-card">
+        <div className="form-group">
+          <label htmlFor="location">여행지</label>
           <input
             type="text"
-            id="여행지"
+            id="location"
+            placeholder="예: 제주도, 파리, 우리집 앞마당"
             onChange={locHandle}
             value={location1}
-            style={{ lineHeight: "1.6em" }}
+            disabled={!isLogined}
           />
-          <div style={{ marginTop: "0.7em" }}>날 짜 </div>{" "}
-          <input type="date" id="date" onChange={dateHandle} value={date1} />
-          <div style={{ marginTop: "0.7em" }}>한 줄 평</div>{" "}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="date">날짜</label>
+          <input
+            type="date"
+            id="date"
+            onChange={dateHandle}
+            value={date1}
+            disabled={!isLogined}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="comment">한 줄 평</label>
           <textarea
-            cols="40"
-            id="평가"
+            id="comment"
+            rows="4"
+            placeholder="여행에서의 기분이나 기억에 남는 일을 적어주세요."
             onChange={commentHandle}
             value={comment}
+            disabled={!isLogined}
           />
-          <div style={{ marginTop: "0.7em" }}>사 진 첨 부 </div>{" "}
-          <input
-            type="file"
-            id="file"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-          />{" "}
-          <div
-            style={{
-              display: "inline-block",
-              marginTop: "0.7em",
-              fontSize: "24px",
-            }}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="file">사진 첨부</label>
+          <div className="file-input-wrapper">
+            <input
+              type="file"
+              id="file"
+              className="file-input-hidden"
+              onChange={(e) => setImage(e.target.files[0])}
+              disabled={!isLogined}
+            />
+          </div>
+        </div>
+
+        <div className="form-buttons">
+          <button
+            type="submit"
+            onClick={storeHandle}
+            className="submit-btn"
+            disabled={!isLogined}
           >
-            {" "}
-            <button
-              type="submit"
-              onClick={storeHandle}
-              style={{
-                color: "white",
-                backgroundColor: "blue",
-              }}
-            >
-              저장소에 저장하기{" "}
-            </button>
-            &nbsp; <input type="reset" value="초기화" onClick={handleReset} />{" "}
-          </div>{" "}
-        </div>{" "}
-      </form>{" "}
+            저장하기
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="reset-btn"
+            disabled={!isLogined}
+          >
+            초기화
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
+
 export default Tour;

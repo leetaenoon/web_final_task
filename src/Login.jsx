@@ -1,7 +1,7 @@
-//Login.jsx
+// src/Login.jsx
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import app from "./firebaseConfig"; //슬라이드 10쪽
+import app from "./firebaseConfig";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -9,137 +9,147 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import useLoginStore from "./useLoginStore"; //zustand 상태관리 라이브러리 사용
+import useLoginStore from "./useLoginStore";
+import "./Login.css"; // 1. 스타일 파일 임포트
+
 const Login = () => {
   const { isLogined, logined, logouted } = useLoginStore();
-  let [nickName, setNickName] = useState(""); //닉네임 상태
+
+  let [nickName, setNickName] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  let pwRef = useRef(); //필요시 포커스를 패스워드에 위치시키기 위한 용도
-  const navigate = useNavigate(); //로그인 성공시 메인 홈으로 이동시 사용
+
+  let pwRef = useRef();
+  const navigate = useNavigate();
   const auth = getAuth(app);
-  //닉네임은 displayName로 사용
-  const nickNameChangeHandle = (e) => {
-    setNickName(e.target.value);
-  };
-  const emailChangeHandle = (e) => {
-    setEmail(e.target.value);
-  };
-  const passwordChangeHandle = (e) => {
-    setPassword(e.target.value);
-  };
-  // User 회원가입 처리함수
+
+  const nickNameChangeHandle = (e) => setNickName(e.target.value);
+  const emailChangeHandle = (e) => setEmail(e.target.value);
+  const passwordChangeHandle = (e) => setPassword(e.target.value);
+
   const signUpHandle = (e) => {
     e.preventDefault();
     if (password.length < 6) {
-      //패스워드는 6자리 이상
-      alert("비밀번호의 길이는 6자리 이상 사용해야 합니다.");
-      pwRef.current.focus(); //커서를 패스워드에 포커싱하게 함
+      alert("비밀번호의 길이는 6자리 이상이어야 합니다.");
+      pwRef.current.focus();
       return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        console.log(user);
-        updateProfile(user, {
-          displayName: nickName,
-        });
+        updateProfile(user, { displayName: nickName });
         alert("회원가입이 완료되었습니다.");
-        setNickName(""); //닉네임 초기화
+        setNickName("");
         setEmail("");
         setPassword("");
-        // ...
       })
       .catch((error) => {
-        //const errorCode = error.code;
-        //const errorMessage = error.message;
         console.log(error);
-        // ..
+        alert("회원가입 실패: " + error.message);
       });
   };
-  //로그인 처리 함수(기존 사용자 로그인)
+
   const signInHandle = (e) => {
-    //e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
-        console.log(user.uid);
-        //zustand 상태 변경 함수 호출(userName, isLogined 등 상태 변경)
         logined(user.displayName);
-        alert("로그인하였습니다.");
+        alert("환영합니다! 로그인되었습니다.");
         setEmail("");
         setPassword("");
-        navigate("/"); //웹페이지 홈
-        // ...
+        navigate("/");
       })
       .catch((error) => {
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
         console.log("에러 발생 :", error);
+        alert("로그인 실패: 아이디와 비밀번호를 확인해주세요.");
       });
   };
+
   const logOutHandle = () => {
     signOut(auth)
       .then(() => {
-        logouted(); //zustand 상태 변경 함수 호출
+        logouted();
         alert("로그아웃이 완료되었습니다.");
         navigate("/login");
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   };
+
   return (
-    <div className="loginPage">
-      <h2>Email/Password 로그인 및 회원가입</h2>
-      <form className="loginForm">
-        <label>
-          Nick Name :{" "}
-          <input
-            type="text"
-            value={nickName}
-            onChange={nickNameChangeHandle}
-            id="nickName"
-            placeholder="회원가입시에만 입력"
-          />
-        </label>
-        <label>
-          &nbsp;&nbsp; e-mail &nbsp;:{" "}
-          <input
-            type="text"
-            value={email}
-            onChange={emailChangeHandle}
-            id="email"
-          />
-        </label>
-        <label>
-          password :{" "}
-          <input
-            type="password"
-            ref={pwRef}
-            value={password}
-            onChange={passwordChangeHandle}
-            id="password"
-          />
-        </label>
-        <p>
-          {isLogined ? (
-            <button type="button" onClick={logOutHandle}>
-              로그아웃
-            </button>
-          ) : (
-            <button type="button" onClick={signInHandle}>
-              로그인
-            </button>
-          )}{" "}
-          | &nbsp;
-          <button type="button" id="register" onClick={signUpHandle}>
-            회원가입
-          </button>
-        </p>
-      </form>
+    <div className="login-page-container">
+      <div className="login-card">
+        <div className="login-header">
+          <h1>🔐 로그인 및 회원가입</h1>
+          <p>이메일과 비밀번호로 간편하게 시작하세요.</p>
+        </div>
+
+        <form className="login-form">
+          <div className="form-group">
+            <label htmlFor="nickName">닉네임</label>
+            <input
+              type="text"
+              id="nickName"
+              value={nickName}
+              onChange={nickNameChangeHandle}
+              placeholder="홍길동 (회원가입 시 필수)"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">이메일</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={emailChangeHandle}
+              placeholder="example@email.com"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">비밀번호</label>
+            <input
+              type="password"
+              id="password"
+              ref={pwRef}
+              value={password}
+              onChange={passwordChangeHandle}
+              placeholder="6자리 이상 입력"
+            />
+          </div>
+
+          <div className="login-button-group">
+            {isLogined ? (
+              <button
+                type="button"
+                className="logout-full-btn"
+                onClick={logOutHandle}
+              >
+                로그아웃
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="login-btn"
+                  onClick={signInHandle}
+                >
+                  로그인
+                </button>
+                <button
+                  type="button"
+                  className="signup-btn"
+                  onClick={signUpHandle}
+                >
+                  회원가입
+                </button>
+              </>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

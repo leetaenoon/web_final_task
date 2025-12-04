@@ -86,3 +86,82 @@ h1 {
   background-color: #ff6b6b;
   color: white;
 }
+
+/* src/App.css 파일에 아래 내용을 추가해주세요. */
+
+/* --- 플로팅 액션 버튼 (FAB) 스타일 --- */
+.fab-container {
+  position: fixed; /* 화면에 고정 */
+  bottom: 30px; /* 바닥에서 30px 띄움 */
+  right: 30px; /* 오른쪽에서 30px 띄움 */
+  z-index: 3000; /* 다른 모든 요소 위에 표시 (높게 설정) */
+  display: flex;
+  flex-direction: column-reverse; /* 메뉴가 버튼 위로 뜨게 */
+  align-items: end; /* 오른쪽 정렬 */
+  gap: 15px;
+}
+
+/* 메인 둥근 버튼 */
+.fab-button {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: none;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  overflow: hidden; /* 이미지가 둥근 영역을 넘지 않게 */
+  padding: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fab-button:hover {
+  transform: scale(1.1); /* 마우스 올리면 커짐 */
+}
+
+.fab-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 꽉 차게 */
+}
+
+/* 펼쳐지는 메뉴 리스트 */
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 5px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 개별 링크 버튼 */
+.univ-link {
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  white-space: nowrap; /* 줄바꿈 방지 */
+  transition: all 0.2s;
+  text-align: right;
+  border-right: 5px solid #002c5f; /* 한신대 색상 포인트 */
+}
+
+.univ-link:hover {
+  background-color: #002c5f;
+  color: white;
+  transform: translateX(-5px); /* 왼쪽으로 살짝 이동 */
+}
